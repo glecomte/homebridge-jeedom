@@ -223,12 +223,12 @@ jeedomPlatform.prototype.setPowerState = function (thisSwitch, state, callback) 
 
     // Request to Jeedom server to set state
     protocolModule.get(this.formated_url + cmd, () => {
-        if (cmd) this.log(`${thisSwitch.name} is turned ${state ? "on" : "off"}.`);
+        if (cmd) this.log(`${thisSwitch.name} is now turned ${state ? "on" : "off"}.`);
 
         thisSwitch.state = state;
 
         // Restore switch after 1s if only one command exists
-        if (!state ? thisSwitch.off_cmd : thisSwitch.on_cmd && !thisSwitch.state_cmd) {
+        if (!state ? !thisSwitch.off_cmd : thisSwitch.on_cmd && !thisSwitch.state_cmd) {
             setTimeout(() => {
                 this.accessories[thisSwitch.name].getService(Service.Switch)
                     .setCharacteristic(Characteristic.On, !state);
